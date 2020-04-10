@@ -7,8 +7,7 @@
 ![board](board.png)
 
 ## Comando to move:
- exemple get piece in the first piece black in firt line:
-    move(1,0)
+ exemple get piece in the first piece black in firt line: (1,0)
 
 
 

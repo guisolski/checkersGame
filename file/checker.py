@@ -18,15 +18,15 @@ class Checker():
             for col in range(self.col_size):
                 pos = position.Position(col,line)
                 if (line == 0 or line == 2) and col%2 != 0:
-                    board.set_value_pos(class_piece.Piece("black",pos),pos)
+                    board.set_piece(class_piece.Piece("black",pos))
                 elif (line == 1 or line == 3) and col%2 == 0:
-                    board.set_value_pos(class_piece.Piece("black",pos),pos)
+                    board.set_piece(class_piece.Piece("black",pos))
                 elif (line == 9 or line == 7) and col%2 == 0:
-                    board.set_value_pos(class_piece.Piece("white",pos),pos)
+                    board.set_piece(class_piece.Piece("white",pos))
                 elif (line == 8 or line == 6) and col%2 != 0:
-                    board.set_value_pos(class_piece.Piece("white",pos),pos)
+                    board.set_piece(class_piece.Piece("white",pos))
                 else:
-                    board.set_value_pos(class_piece.Piece("__",pos),pos)
+                    board.set_piece(class_piece.Piece("__",pos))
         return board
 
     #move piece based in positions

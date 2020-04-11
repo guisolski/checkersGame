@@ -12,8 +12,4 @@
 
 
 ## Mechanics of Gameplay 
-1. Select Piece
-1. Show movements possibility
-1. Choice One
-1. Execute
-1. Shift change
+![board](diagram.png)

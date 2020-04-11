@@ -35,6 +35,8 @@ class Board():
         I did not consider the value how piece, beacause i wanted to make more abstract.
         So is necessary pass value of position too
     '''
+    def set_piece(self,_obj):
+        self.board[_obj.get_pos().get_y()][_obj.get_pos().get_x()] = _obj
     #Simple print of board
     def _print(self):
         for i in self.board:

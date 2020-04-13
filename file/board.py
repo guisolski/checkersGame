@@ -24,23 +24,18 @@ class Board():
         return self.board
     #Return value in positon(x,y)
     def get_pos(self,_pos):
-        return self.board[_pos.get_y()][_pos.get_x()]
+        return self.board[_pos.y][_pos.x]
     #Return value in x,y
     def get_pos_XY(self,_x,_y):
         return self.board[_x][_y]
     #Setter value/object in pos 
     def set_value_pos(self,_obj, _pos):
-        self.board[_pos.get_y()][_pos.get_x()] = _obj
+        self.board[_pos.y][_pos.x] = _obj
     '''
         I did not consider the value how piece, beacause i wanted to make more abstract.
         So is necessary pass value of position too
     '''
     def set_piece(self,_obj):
-        self.board[_obj.get_pos().get_y()][_obj.get_pos().get_x()] = _obj
-    #Simple print of board
-    def _print(self):
-        for i in self.board:
-            for a in i:
-                print(a.get(),end=",")
-            print("")
+        self.board[_obj.pos.y][_obj.pos.x] = _obj
+    
 

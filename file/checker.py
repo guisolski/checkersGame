@@ -35,8 +35,8 @@ class Checker():
         obj_in_pos_before = self.board.get_pos(pos_before)
         obj_in_pos_after  = self.board.get_pos(pos_after)
         #Set new pos in piece
-        obj_in_pos_before.set_pos(pos_after)
-        obj_in_pos_after.set_pos(pos_before)
+        obj_in_pos_before.pos = pos_after
+        obj_in_pos_after.pos = pos_before
         #Changing piece of places
         self.board.set_value_pos(obj_in_pos_after,pos_before)
         self.board.set_value_pos(obj_in_pos_before,pos_after)
@@ -47,21 +47,21 @@ class Checker():
     def verify_diagonal(self,_piece):
         pos = _piece.get_pos()
         possibility = []
-        if _piece.get_lady() == False:
-            if _piece.get_type() == "white": 
+        if _piece.lady == False:
+            if _piece.type == "white": 
                 '''
                     Try test if the next postion not of board
                 '''
                 try:
                     #type diagonal left of piece
                     type_left = self.get_type_of_pos(position.Position(
-                        pos.get_x()-1, pos.get_y()-1))
+                        pos.x-1, pos.y-1))
                 except:
                     type_left = ""
                 try:
                     #type diagonal rigth of piece
                     type_rigth = self.get_type_of_pos(position.Position(
-                        pos.get_x()+1, pos.get_y()-1))
+                        pos.x()+1, pos.y-1))
                 except:
                     type_rigth = ""
                 #verify move to diagonal left    
@@ -82,13 +82,13 @@ class Checker():
                 try:
                     #type diagonal left of piece
                     type_left = self.get_type_of_pos(position.Position(
-                    pos.get_x()+1, pos.get_y()-1))
+                    pos.x+1, pos.y-1))
                 except:
                     type_left = ""
                 try:
                     #type diagonal rigth of piece
                     type_rigth = self.get_type_of_pos(position.Position(
-                        pos.get_x()+1, pos.get_y()+1))
+                        pos.x+1, pos.y+1))
                 except:
                     type_rigth = ""
                 #verify move to diagonal left  
@@ -106,34 +106,25 @@ class Checker():
             #in construction
             pass
     def set_piece(self,_piece):
-        self.board.set_piece(_piece)
-    #return board
-    def get_board(self):
-        self.board
-    #return line size
-    def get_line_size(self):
-        return self.line_size
-    #return col size
-    def get_col_size(self):
-        return self.col_size
+        self.board.set_piece(_piece)            
     #return piece of pos(x,y)
     def get_piece(self,_pos):
         return self.board.get_pos(_pos)
     #Return type of piece of pos(x,y) 
     def get_type_of_pos(self,_pos):
-        return self.board.get_pos(_pos).get_type()
+        return self.board.get_pos(_pos).type
     #Return type of piece of x,y 
     def get_type_of_pos_XY(self,_x,_y):
-        return self.board.get_pos_XY(_x,_y).get_type()
+        return self.board.get_pos_XY(_x,_y).type
     #Draw board game based in type and pos of piece matrix 
     def print_board(self):
-        _board = self.board.get_board()
+        _board = self.board.board
         print("-"+"-"*4*self.col_size)
         for line in range(len(_board)):
             for col in range(len(_board[line])):
                 if col == 0:
                     print("|",end="")
-                _type = _board[line][col].get_type() 
+                _type = _board[line][col].type
                 if _type == "white":
                     print("_"+u"\u25CF"+"_", end="|")
                 elif _type == "black":

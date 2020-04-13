@@ -24,12 +24,12 @@ def select_piece(_game,_player,_type_of_player):
 
 if __name__ == "__main__":
     type_of_player, turn, loop, game = start_variables.start()
+    
     print(game.get_type_of_pos_XY(0,0))
     util.easy_print(game)
     while loop:
         #human trun play
         if turn == "human":
-            
             select_piece(game,turn,type_of_player)
             print("")
             

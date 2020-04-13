@@ -47,7 +47,7 @@ class Checker():
     def verify_diagonal(self,_piece):
         pos = _piece.get_pos()
         possibility = []
-        if _piece.get_king() == False:
+        if _piece.get_lady() == False:
             if _piece.get_type() == "white": 
                 '''
                     Try test if the next postion not of board

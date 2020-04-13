@@ -7,7 +7,7 @@ class Piece():
         #inialize varibles
         self.type = None
         self.pos = position.Position()
-        self.king = False
+        self.lady = False
         #Recive on argument, set pieace in Null space
         if len(_args) == 1:
             self.type = _args[0]
@@ -26,16 +26,16 @@ class Piece():
     def set_pos_XY(self,_x,_y):
         self.pos.set_x(_x)
         self.pos.set_x(_y)
-    #Set value of king variable
-    def set_king(self, _king):
-        self.king = _king
+    #Set value of lady variable
+    def set_lady(self, _lady):
+        self.lady = _lady
     #Return value of type   
     def get_type(self):
         return self.type
     #Return value of position   
     def get_pos(self):
         return self.pos
-    #Return value of king    
-    def get_king(self):
-        return self.king
+    #Return value of     
+    def get_lady(self):
+        return self.lady
     

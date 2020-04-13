@@ -10,12 +10,12 @@ def start():
     type_of_player = {}
     if start == 1:
         turn = "human"
-        type_of_player["white"] = "human"
-        type_of_player["black"] = "machine"
+        type_of_player["human"] = "white"
+        type_of_player["machine"] = "black"
     else:
         turn = "machine"
-        type_of_player["white"] = "machine"
-        type_of_player["black"] = "human"
+        type_of_player["machine"] = "white"
+        type_of_player["human"] = "black"
     util.clear()
     loop = True
         

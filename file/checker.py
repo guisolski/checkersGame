@@ -26,7 +26,7 @@ class Checker():
                 elif (line == 8 or line == 6) and col%2 != 0:
                     board.set_piece(class_piece.Piece("white",pos))
                 else:
-                    board.set_piece(class_piece.Piece("__",pos))
+                    board.set_piece(class_piece.Piece("blank",pos))
         return board
 
     #move piece based in positions
@@ -65,12 +65,12 @@ class Checker():
                 except:
                     type_rigth = ""
                 #verify move to diagonal left    
-                if type_left == "_":
+                if type_left == "blank":
                         possibility.append("move left")
                 elif type_left == "black":
                         possibility.append("eat left")
                 #verify move to diagonal rigth
-                if type_rigth == "_":
+                if type_rigth == "blank":
                         possibility.append("move rigth")
                 elif type_rigth == "black":
                         possibility.append("eat rigth")
@@ -92,12 +92,12 @@ class Checker():
                 except:
                     type_rigth = ""
                 #verify move to diagonal left  
-                if type_left == "_":
+                if type_left == "blank":
                         possibility.append("move left")
                 elif type_left == "white":
                         possibility.append("eat left")
                 #verify move to diagonal rigth
-                if type_rigth == "_":
+                if type_rigth == "blank":
                         possibility.append("move rigth")
                 elif type_rigth == "white":
                         possibility.append("eat rigth")
@@ -105,6 +105,20 @@ class Checker():
         else:
             #in construction
             pass
+    def set_piece(self,_piece):
+        self.board.set_piece(_piece)
+    #return board
+    def get_board(self):
+        self.board
+    #return line size
+    def get_line_size(self):
+        return self.line_size
+    #return col size
+    def get_col_size(self):
+        return self.col_size
+    #return piece of pos(x,y)
+    def get_piece(self,_pos):
+        return self.board.get_pos(_pos)
     #Return type of piece of pos(x,y) 
     def get_type_of_pos(self,_pos):
         return self.board.get_pos(_pos).get_type()
@@ -124,8 +138,11 @@ class Checker():
                     print("_"+u"\u25CF"+"_", end="|")
                 elif _type == "black":
                     print("_"+u"\u25CB"+"_", end="|")  
+                elif _type == "blank":
+                    print("_"+"__",end="|")
                 else:
-                    print("_"+_type,end="|")
+                    print(_type,end="|")
+
             print("")
         print("-"+"-"*4*self.col_size)
 

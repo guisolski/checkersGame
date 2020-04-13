@@ -1,4 +1,5 @@
 import os
+import msvcrt
 
 def input_validation_list(_text,_type,_list):
     v = input(_text)
@@ -18,3 +19,10 @@ def input_split_validation_type(_text,_split,_type):
 
 def clear():
     os.system('cls' if os.name=='nt' else 'clear')
+
+def getKey():
+    return str(msvcrt.getch()).replace("b","").replace("'","").replace("\n"," ").replace(" ","").strip()
+
+def easy_print(game):
+    clear()
+    game.print_board()

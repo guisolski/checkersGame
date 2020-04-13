@@ -1,4 +1,4 @@
-import position 
+from position import Position 
 
 #Class define one piece
 class Piece():
@@ -6,7 +6,7 @@ class Piece():
     def __init__(self,*_args):
         #inialize varibles
         self.type = None
-        self.pos = position.Position()
+        self.pos = Position()
         self.lady = False
         #Recive on argument, set pieace in Null space
         if len(_args) == 1:

@@ -1,13 +1,15 @@
-import checker
-import util
-import position
+from util import clear,input_validation_list
+from checker import Checker
+from position import Position
+from person import Person
 
 def start():
-    start = util.input_validation_list(
+    start = input_validation_list(
             str("Choice side " +  u"\u25CF" + " (1) or "+ u"\u25CB" + " (2) : "),
             int,
             ["1","2"])
     type_of_player = {}
+    number_of_piece = {"white": 20, "black": 20}
     if start == 1:
         turn = "human"
         type_of_player["human"] = "white"
@@ -16,10 +18,7 @@ def start():
         turn = "machine"
         type_of_player["machine"] = "white"
         type_of_player["human"] = "black"
-    util.clear()
+    clear()
     loop = True
-        
-    game = checker.Checker()
-
-
-    return type_of_player, turn, loop, game
+    game = Checker()
+    return type_of_player, turn, loop, game, number_of_piece

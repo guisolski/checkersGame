@@ -1,6 +1,6 @@
-import piece as class_piece
-import board as class_board
-import position 
+from piece import Piece 
+from board import Board 
+from position import Position 
 
 #Class define one board of cheacker and verify moviments possible
 class Checker():
@@ -12,21 +12,21 @@ class Checker():
     
     #Inicialize piece in board
     def inicialize_board(self):
-        p = class_piece.Piece()
-        board = class_board.Board(p,self.line_size,self.col_size)
+        p = Piece()
+        board = Board(p,self.line_size,self.col_size)
         for line in range(self.line_size):
             for col in range(self.col_size):
-                pos = position.Position(col,line)
+                pos = Position(col,line)
                 if (line == 0 or line == 2) and col%2 != 0:
-                    board.set_piece(class_piece.Piece("black",pos))
+                    board.set_piece(Piece("black",pos))
                 elif (line == 1 or line == 3) and col%2 == 0:
-                    board.set_piece(class_piece.Piece("black",pos))
+                    board.set_piece(Piece("black",pos))
                 elif (line == 9 or line == 7) and col%2 == 0:
-                    board.set_piece(class_piece.Piece("white",pos))
+                    board.set_piece(Piece("white",pos))
                 elif (line == 8 or line == 6) and col%2 != 0:
-                    board.set_piece(class_piece.Piece("white",pos))
+                    board.set_piece(Piece("white",pos))
                 else:
-                    board.set_piece(class_piece.Piece("blank",pos))
+                    board.set_piece(Piece("blank",pos))
         return board
 
     #move piece based in positions
@@ -54,13 +54,13 @@ class Checker():
                 '''
                 try:
                     #type diagonal left of piece
-                    type_left = self.get_type_of_pos(position.Position(
+                    type_left = self.get_type_of_pos(Position(
                         pos.x-1, pos.y-1))
                 except:
                     type_left = ""
                 try:
                     #type diagonal rigth of piece
-                    type_rigth = self.get_type_of_pos(position.Position(
+                    type_rigth = self.get_type_of_pos(Position(
                         pos.x()+1, pos.y-1))
                 except:
                     type_rigth = ""
@@ -81,13 +81,13 @@ class Checker():
                 '''
                 try:
                     #type diagonal left of piece
-                    type_left = self.get_type_of_pos(position.Position(
+                    type_left = self.get_type_of_pos(Position(
                     pos.x+1, pos.y-1))
                 except:
                     type_left = ""
                 try:
                     #type diagonal rigth of piece
-                    type_rigth = self.get_type_of_pos(position.Position(
+                    type_rigth = self.get_type_of_pos(Position(
                         pos.x+1, pos.y+1))
                 except:
                     type_rigth = ""

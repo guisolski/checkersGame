@@ -1,5 +1,3 @@
-import position 
-
 #Class define one board
 class Board():
     #Contructor of class

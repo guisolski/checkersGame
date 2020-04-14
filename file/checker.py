@@ -58,30 +58,45 @@ class Checker():
     #checks if the received piece eats any enemy pieces diagonally
     #---------------------------------------------------------------------------
     def verify_diagonal_eating(self,_piece):
-        pos = _piece.pos
-        _type = self.conversion[_piece.type] * -1
-        blank = "blank"
-        return_eat = []
-        #---------------------------------------------------------------
-        #one horizantal direction (-y)
-        #---------------------------------------------------------------
-        if self.get_type_of_pos(Position(pos.x+1, pos.y-1)) == _type:
-            if self.get_type_of_pos(Position(pos.x+2, pos.y-2)) == blank:
-                return_eat.append(Position(pos.x+2, pos.y-2))
-        if self.get_type_of_pos(Position(pos.x-1, pos.y-1)) == _type:
-            if self.get_type_of_pos(Position(pos.x-2, pos.y-2)) == blank:
-                return_eat.append(Position(pos.x-2, pos.y-2))
-        #---------------------------------------------------------------
-        #one horizantal direction (+y)
-        #---------------------------------------------------------------
-        if self.get_type_of_pos(Position(pos.x+1, pos.y+1)) == _type:
-            if self.get_type_of_pos(Position(pos.x+2, pos.y+2)) == blank:
-                return_eat.append(Position(pos.x+2, pos.y+1))
-        if self.get_type_of_pos(Position(pos.x-1, pos.y+1)) == _type:
-            if self.get_type_of_pos(Position(pos.x-2, pos.y+2)) == blank:
-                return_eat.append(Position(pos.x-2, pos.y+1))
-        #---------------------------------------------------------------                 
-        return return_eat
+        if _piece.type != "blank":
+            pos = _piece.pos        
+            _type = self.conversion[_piece.type] * -1
+            blank = "blank"
+            return_eat = []
+            #---------------------------------------------------------------
+            #one horizantal direction (-y)
+            #---------------------------------------------------------------
+            try:
+                if self.get_type_of_pos(Position(pos.x+1, pos.y-1)) == _type:
+                    if self.get_type_of_pos(Position(pos.x+2, pos.y-2)) == blank:
+                        return_eat.append(Position(pos.x+2, pos.y-2))
+            except:
+                pass
+            
+            try:
+                if self.get_type_of_pos(Position(pos.x-1, pos.y-1)) == _type:
+                    if self.get_type_of_pos(Position(pos.x-2, pos.y-2)) == blank:
+                        return_eat.append(Position(pos.x-2, pos.y-2))
+            except:
+                pass
+            #---------------------------------------------------------------
+            #one horizantal direction (+y)
+            #---------------------------------------------------------------
+            try:
+                if self.get_type_of_pos(Position(pos.x+1, pos.y+1)) == _type:
+                    if self.get_type_of_pos(Position(pos.x+2, pos.y+2)) == blank:
+                        return_eat.append(Position(pos.x+2, pos.y+1))
+            except:
+                pass
+            try:
+                if self.get_type_of_pos(Position(pos.x-1, pos.y+1)) == _type:
+                    if self.get_type_of_pos(Position(pos.x-2, pos.y+2)) == blank:
+                        return_eat.append(Position(pos.x-2, pos.y+1))
+            except:
+                pass
+            #---------------------------------------------------------------                 
+            return return_eat
+        return None
     #---------------------------------------------------------------------------
     #checks if the stride piece moves on any diagonal
     #---------------------------------------------------------------------------
@@ -118,8 +133,10 @@ class Checker():
             for col in range(len(_board[line])):
                 piece = _board[line][col]
                 eating = self.verify_diagonal_eating(piece)
-                if len(eating) > 0: 
-                    pieces_eating[piece] = eating
+                if eating != None: 
+                    if len(eating) > 0:
+                        pieces_eating[piece] = eating
+        return pieces_eating
     #---------------------------------------------------------------------------
     #set one piece in board
     #---------------------------------------------------------------------------

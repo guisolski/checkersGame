@@ -55,24 +55,59 @@ class Checker():
         self.board.set_value_pos(obj_in_pos_after,pos_before)
         self.board.set_value_pos(obj_in_pos_before,pos_after)
     #---------------------------------------------------------------------------
-    #checks if the piece from the past eats any enemy piece on its diagonal
+    #checks if the received piece eats any enemy pieces diagonally
     #---------------------------------------------------------------------------
-    def verify_piece_eating(self,_piece):
-        
+    def verify_diagonal_eating(self,_piece):
         pos = _piece.pos
         _type = self.conversion[_piece.type] * -1
+        blank = "blank"
         return_eat = []
-        #one horizantal direction
+        #---------------------------------------------------------------
+        #one horizantal direction (-y)
+        #---------------------------------------------------------------
         if self.get_type_of_pos(Position(pos.x+1, pos.y-1)) == _type:
-            return_eat.append(Position(pos.x+1, pos.y-1))
+            if self.get_type_of_pos(Position(pos.x+2, pos.y-2)) == blank:
+                return_eat.append(Position(pos.x+2, pos.y-2))
         if self.get_type_of_pos(Position(pos.x-1, pos.y-1)) == _type:
-            return_eat.append(Position(pos.x-1, pos.y-1))
-        #one horizantal direction
+            if self.get_type_of_pos(Position(pos.x-2, pos.y-2)) == blank:
+                return_eat.append(Position(pos.x-2, pos.y-2))
+        #---------------------------------------------------------------
+        #one horizantal direction (+y)
+        #---------------------------------------------------------------
         if self.get_type_of_pos(Position(pos.x+1, pos.y+1)) == _type:
-            return_eat.append(Position(pos.x+1, pos.y+1))
+            if self.get_type_of_pos(Position(pos.x+2, pos.y+2)) == blank:
+                return_eat.append(Position(pos.x+2, pos.y+1))
         if self.get_type_of_pos(Position(pos.x-1, pos.y+1)) == _type:
-            return_eat.append(Position(pos.x-1, pos.y+1))
+            if self.get_type_of_pos(Position(pos.x-2, pos.y+2)) == blank:
+                return_eat.append(Position(pos.x-2, pos.y+1))
+        #---------------------------------------------------------------                 
         return return_eat
+    #---------------------------------------------------------------------------
+    #checks if the stride piece moves on any diagonal
+    #---------------------------------------------------------------------------
+    def verify_diagonal_move(self,_piece):
+        pos = _piece.pos
+        blank = "blank"
+        return_move = []
+        if _piece.type == "white" or _piece.lady == True:
+            #------------------------------------------------------------
+            #one horizantal direction (-y)
+            #------------------------------------------------------------
+            if self.get_type_of_pos(Position(pos.x+1, pos.y-1)) == blank:
+                return_move.append(Position(pos.x+1, pos.y-1))
+            if self.get_type_of_pos(Position(pos.x-1, pos.y-1)) == blank:
+                return_move.append(Position(pos.x-1, pos.y-1))
+            #------------------------------------------------------------
+        if _piece.type == "black" or _piece.lady == True:
+            #------------------------------------------------------------
+            #one horizantal direction (+y)
+            #------------------------------------------------------------
+            if self.get_type_of_pos(Position(pos.x+1, pos.y+1)) == blank:
+                return_move.append(Position(pos.x+1, pos.y+1))
+            if self.get_type_of_pos(Position(pos.x-1, pos.y+1)) == blank:
+                return_move.append(Position(pos.x-1, pos.y+1))
+            #------------------------------------------------------------
+        return return_move
     #---------------------------------------------------------------------------
     #very all piece by past type
     #---------------------------------------------------------------------------

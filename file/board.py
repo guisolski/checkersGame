@@ -50,4 +50,3 @@ class Board():
     def set_piece(self,_obj):
         self.board[_obj.pos.y][_obj.pos.x] = _obj
     #---------------------------------------------------------------------------
-

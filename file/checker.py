@@ -42,7 +42,8 @@ class Checker():
         self.board.set_value_pos(obj_in_pos_before,pos_after)
     #return action  possibilities of piece in determine position
     def possibility_action(self, _pos):
-        return self.verify_diagonal(self.board.get_pos(_pos))
+        possiblitys = self.verify_diagonal(self.board.get_pos(_pos))
+        return 
     #return possivility action of piece
     def verify_diagonal(self,_piece):
         pos = _piece.get_pos()
@@ -66,15 +67,29 @@ class Checker():
                     type_rigth = ""
                 #verify move to diagonal left    
                 if type_left == "blank":
-                        possibility.append("move left")
+                    possibility.append("move left")
                 elif type_left == "black":
+                    try:
+                        #type diagonal left of enemy
+                        type_left = self.get_type_of_pos(Position(
+                            pos.x-2, pos.y-2))
+                    except:
+                        type_left = ""
+                    if type_left == "blank":
                         possibility.append("eat left")
+
                 #verify move to diagonal rigth
                 if type_rigth == "blank":
-                        possibility.append("move rigth")
+                    possibility.append("move rigth")
                 elif type_rigth == "black":
+                    try:
+                        #type diagonal rigth of enemy
+                        type_rigth = self.get_type_of_pos(Position(
+                            pos.x+2, pos.y-2))
+                    except:
+                        type_rigth = ""
+                    if type_rigth == "blank":
                         possibility.append("eat rigth")
-
             elif _piece.get_type() == "black":
                 '''
                     Try test if the next postion not of board
@@ -136,4 +151,3 @@ class Checker():
 
             print("")
         print("-"+"-"*4*self.col_size)
-

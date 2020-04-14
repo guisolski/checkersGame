@@ -28,7 +28,7 @@ if __name__ == "__main__":
     while loop:
         #human trun play
         if turn == "human":
-            select_piece(Position(0,0),game,turn,type_of_player)
+            before = select_piece(Position(0,0),game,turn,type_of_player)
             print("")
             
             turn = "machine"

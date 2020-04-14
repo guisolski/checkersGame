@@ -1,13 +1,18 @@
+#-------------------------------------------------------------------------------
+#Import all function and class use in cheacker
+#-------------------------------------------------------------------------------
 from piece import Piece 
 from board import Board 
 from position import Position 
-
+#-------------------------------------------------------------------------------
 #Class define one board of cheacker and verify moviments possible
+#-------------------------------------------------------------------------------
 class Checker():
     #---------------------------------------------------------------------------
     #Contructor of class
     #---------------------------------------------------------------------------
     def __init__(self): 
+        #-----------------
         #length of board
         #-----------------
         self.line_size = 10
@@ -136,7 +141,7 @@ class Checker():
             try:
                 if self.get_type_of_pos(Position(pos.x-1, pos.y+1)) == blank:
                     move.append(Position(pos.x-1, pos.y+1))
-            except: passs
+            except: pass
             #------------------------------------------------------------
         return self.pos_to_piece(move)
     #---------------------------------------------------------------------------

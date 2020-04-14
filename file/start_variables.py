@@ -1,7 +1,7 @@
 from util import clear,input_validation_list
 from checker import Checker
 from position import Position
-from person import Person
+
 
 def start():
     start = input_validation_list(

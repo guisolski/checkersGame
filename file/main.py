@@ -1,6 +1,7 @@
-import util
+from util import easy_print
 import start_variables
-import walk
+from walk import walk
+from position import Position 
 import sys
 import time
 
@@ -8,26 +9,26 @@ def invalid_mensage():
     print("Invalid Input")
     time.sleep(1)
 
-def select_piece(_game,_turn,_type_of_player):
+def select_piece(position,_game,_turn,_type_of_player):
     #walk return one point in space
-    before = walk.walk(0,0,_game)
-    type_piece = _game.get_type_of_pos(before)
+    position = walk(position,_game)
+    type_piece = _game.get_type_of_pos(position)
     if type_piece == _type_of_player[_turn]:
-        return _game.get_piece(before)
+        return _game.get_piece(position)
     invalid_mensage()
 
-    return select_piece(_game,_turn,_type_of_player)
+    return select_piece(position,_game,_turn,_type_of_player)
 
 
 
 if __name__ == "__main__":
     type_of_player, turn, loop, game,number_of_piece = start_variables.start()
     print(game.get_type_of_pos_XY(0,0))
-    util.easy_print(game)
+    easy_print(game)
     while loop:
         #human trun play
         if turn == "human":
-            select_piece(game,turn,type_of_player)
+            select_piece(Position(0,0),game,turn,type_of_player)
             print("")
             
             turn = "machine"
@@ -35,5 +36,5 @@ if __name__ == "__main__":
         else:
             pass
        
-        util.easy_print(game)
+        easy_print(game)
         sys.exit(1)

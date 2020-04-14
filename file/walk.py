@@ -3,13 +3,13 @@ from util import getKey,easy_print
 from piece import Piece
 from position import Position 
 import time
-
+#---------------------------------------------------------------------------
 #print mensage of intruction
+#---------------------------------------------------------------------------
 def intruction():
     #print("Walk in W,A,S,D")
     print("Select to piece press F")
-
-#
+#---------------------------------------------------------------------------
 def walk(_pos,game):
     old_pos = Position(_pos.x,_pos.y)    
     piece =  game.get_piece(old_pos)
@@ -39,4 +39,4 @@ def walk(_pos,game):
     game.set_piece(piece)
     easy_print(game)
     return _pos
-    
+#---------------------------------------------------------------------------

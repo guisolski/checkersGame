@@ -4,13 +4,26 @@ from position import Position
 
 #Class define one board of cheacker and verify moviments possible
 class Checker():
+    #---------------------------------------------------------------------------
     #Contructor of class
+    #---------------------------------------------------------------------------
     def __init__(self): 
+        #length of board
+        #-----------------
         self.line_size = 10
         self.col_size = 10
+        #------------------
+        #math conversion more easy, * -1
+        #--------------------------------------------
+        self.conversion = {"white" : 1, "black" : -1}
+        #--------------------------------------------
+        #inicialize board
+        #-----------------------------------
         self.board = self.inicialize_board()
-    
+        #-----------------------------------
+    #---------------------------------------------------------------------------   
     #Inicialize piece in board
+    #---------------------------------------------------------------------------
     def inicialize_board(self):
         p = Piece()
         board = Board(p,self.line_size,self.col_size)
@@ -28,8 +41,9 @@ class Checker():
                 else:
                     board.set_piece(Piece("blank",pos))
         return board
-
+    #---------------------------------------------------------------------------
     #move piece based in positions
+    #---------------------------------------------------------------------------
     def move(self,pos_before,pos_after):
         #Get piece in pos changing
         obj_in_pos_before = self.board.get_pos(pos_before)
@@ -40,98 +54,60 @@ class Checker():
         #Changing piece of places
         self.board.set_value_pos(obj_in_pos_after,pos_before)
         self.board.set_value_pos(obj_in_pos_before,pos_after)
-    #return action  possibilities of piece in determine position
-    def possibility_action(self, _pos):
-        possiblitys = self.verify_diagonal(self.board.get_pos(_pos))
-        return 
-    #return possivility action of piece
-    def verify_diagonal(self,_piece):
-        pos = _piece.get_pos()
-        possibility = []
-        if _piece.lady == False:
-            if _piece.type == "white": 
-                '''
-                    Try test if the next postion not of board
-                '''
-                try:
-                    #type diagonal left of piece
-                    type_left = self.get_type_of_pos(Position(
-                        pos.x-1, pos.y-1))
-                except:
-                    type_left = ""
-                try:
-                    #type diagonal rigth of piece
-                    type_rigth = self.get_type_of_pos(Position(
-                        pos.x()+1, pos.y-1))
-                except:
-                    type_rigth = ""
-                #verify move to diagonal left    
-                if type_left == "blank":
-                    possibility.append("move left")
-                elif type_left == "black":
-                    try:
-                        #type diagonal left of enemy
-                        type_left = self.get_type_of_pos(Position(
-                            pos.x-2, pos.y-2))
-                    except:
-                        type_left = ""
-                    if type_left == "blank":
-                        possibility.append("eat left")
-
-                #verify move to diagonal rigth
-                if type_rigth == "blank":
-                    possibility.append("move rigth")
-                elif type_rigth == "black":
-                    try:
-                        #type diagonal rigth of enemy
-                        type_rigth = self.get_type_of_pos(Position(
-                            pos.x+2, pos.y-2))
-                    except:
-                        type_rigth = ""
-                    if type_rigth == "blank":
-                        possibility.append("eat rigth")
-            elif _piece.get_type() == "black":
-                '''
-                    Try test if the next postion not of board
-                '''
-                try:
-                    #type diagonal left of piece
-                    type_left = self.get_type_of_pos(Position(
-                    pos.x+1, pos.y-1))
-                except:
-                    type_left = ""
-                try:
-                    #type diagonal rigth of piece
-                    type_rigth = self.get_type_of_pos(Position(
-                        pos.x+1, pos.y+1))
-                except:
-                    type_rigth = ""
-                #verify move to diagonal left  
-                if type_left == "blank":
-                        possibility.append("move left")
-                elif type_left == "white":
-                        possibility.append("eat left")
-                #verify move to diagonal rigth
-                if type_rigth == "blank":
-                        possibility.append("move rigth")
-                elif type_rigth == "white":
-                        possibility.append("eat rigth")
-            return possibility      
-        else:
-            #in construction
-            pass
+    #---------------------------------------------------------------------------
+    #checks if the piece from the past eats any enemy piece on its diagonal
+    #---------------------------------------------------------------------------
+    def verify_piece_eating(self,_piece):
+        
+        pos = _piece.pos
+        _type = self.conversion[_piece.type] * -1
+        return_eat = []
+        #one horizantal direction
+        if self.get_type_of_pos(Position(pos.x+1, pos.y-1)) == _type:
+            return_eat.append(Position(pos.x+1, pos.y-1))
+        if self.get_type_of_pos(Position(pos.x-1, pos.y-1)) == _type:
+            return_eat.append(Position(pos.x-1, pos.y-1))
+        #one horizantal direction
+        if self.get_type_of_pos(Position(pos.x+1, pos.y+1)) == _type:
+            return_eat.append(Position(pos.x+1, pos.y+1))
+        if self.get_type_of_pos(Position(pos.x-1, pos.y+1)) == _type:
+            return_eat.append(Position(pos.x-1, pos.y+1))
+        return return_eat
+    #---------------------------------------------------------------------------
+    #very all piece by past type
+    #---------------------------------------------------------------------------
+    def verify_any_piece_eating(self,_type):
+        _board = self.board.board
+        pieces_eating = {}
+        for line in range(len(_board)):
+            for col in range(len(_board[line])):
+                piece = _board[line][col]
+                eating = self.verify_piece_eating(piece)
+                if len(eating) > 0: 
+                    pieces_eating[piece] = eating
+    #---------------------------------------------------------------------------
+    #set one piece in board
+    #---------------------------------------------------------------------------
     def set_piece(self,_piece):
-        self.board.set_piece(_piece)            
+        self.board.set_piece(_piece)
+    #---------------------------------------------------------------------------            
     #return piece of pos(x,y)
+    #---------------------------------------------------------------------------
     def get_piece(self,_pos):
         return self.board.get_pos(_pos)
+    #---------------------------------------------------------------------------    
     #Return type of piece of pos(x,y) 
+    #---------------------------------------------------------------------------
     def get_type_of_pos(self,_pos):
         return self.board.get_pos(_pos).type
+    #---------------------------------------------------------------------------
     #Return type of piece of x,y 
+    #---------------------------------------------------------------------------
     def get_type_of_pos_XY(self,_x,_y):
         return self.board.get_pos_XY(_x,_y).type
+    #---------------------------------------------------------------------------
     #Draw board game based in type and pos of piece matrix 
+    #---------------------------------------------------------------------------
     def print_board(self):
         _board = self.board.board
         print("-"+"-"*4*self.col_size)
@@ -151,3 +127,4 @@ class Checker():
 
             print("")
         print("-"+"-"*4*self.col_size)
+    #---------------------------------------------------------------------------

@@ -1,8 +1,12 @@
+#-------------------------------------------------------------------------------
+#Import function and class use in start variables
+#-------------------------------------------------------------------------------
 from util import clear,input_validation_list
 from checker import Checker
 from position import Position
-
-
+#-------------------------------------------------------------------------------
+#Start all variables use in main
+#-------------------------------------------------------------------------------
 def start():
     start = input_validation_list(
             str("Choice side " +  u"\u25CF" + " (1) or "+ u"\u25CB" + " (2) : "),
@@ -22,3 +26,4 @@ def start():
     loop = True
     game = Checker()
     return type_of_player, turn, loop, game, number_of_piece
+#-------------------------------------------------------------------------------

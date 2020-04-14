@@ -98,31 +98,47 @@ class Checker():
             return return_eat
         return None
     #---------------------------------------------------------------------------
+    #Conver list of position to list of piece
+    #---------------------------------------------------------------------------
+    def pos_to_piece(self, _list):
+        pieces = []
+        for i in _list:
+            pieces.append(self.get_piece(i))
+        return pieces
+    #---------------------------------------------------------------------------
     #checks if the stride piece moves on any diagonal
     #---------------------------------------------------------------------------
     def verify_diagonal_move(self,_piece):
         pos = _piece.pos
         blank = "blank"
-        return_move = []
+        move = []
         if _piece.type == "white" or _piece.lady == True:
             #------------------------------------------------------------
             #one horizantal direction (-y)
             #------------------------------------------------------------
-            if self.get_type_of_pos(Position(pos.x+1, pos.y-1)) == blank:
-                return_move.append(Position(pos.x+1, pos.y-1))
-            if self.get_type_of_pos(Position(pos.x-1, pos.y-1)) == blank:
-                return_move.append(Position(pos.x-1, pos.y-1))
+            try:
+                if self.get_type_of_pos(Position(pos.x+1, pos.y-1)) == blank:
+                    move.append(Position(pos.x+1, pos.y-1))
+            except: pass
+            try:
+                if self.get_type_of_pos(Position(pos.x-1, pos.y-1)) == blank:
+                    move.append(Position(pos.x-1, pos.y-1))
+            except: pass
             #------------------------------------------------------------
         if _piece.type == "black" or _piece.lady == True:
             #------------------------------------------------------------
             #one horizantal direction (+y)
             #------------------------------------------------------------
-            if self.get_type_of_pos(Position(pos.x+1, pos.y+1)) == blank:
-                return_move.append(Position(pos.x+1, pos.y+1))
-            if self.get_type_of_pos(Position(pos.x-1, pos.y+1)) == blank:
-                return_move.append(Position(pos.x-1, pos.y+1))
+            try:
+                if self.get_type_of_pos(Position(pos.x+1, pos.y+1)) == blank:
+                    move.append(Position(pos.x+1, pos.y+1))
+            except: pass
+            try:
+                if self.get_type_of_pos(Position(pos.x-1, pos.y+1)) == blank:
+                    move.append(Position(pos.x-1, pos.y+1))
+            except: passs
             #------------------------------------------------------------
-        return return_move
+        return self.pos_to_piece(move)
     #---------------------------------------------------------------------------
     #very all piece by past type
     #---------------------------------------------------------------------------

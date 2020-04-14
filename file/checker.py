@@ -117,7 +117,7 @@ class Checker():
         for line in range(len(_board)):
             for col in range(len(_board[line])):
                 piece = _board[line][col]
-                eating = self.verify_piece_eating(piece)
+                eating = self.verify_diagonal_eating(piece)
                 if len(eating) > 0: 
                     pieces_eating[piece] = eating
     #---------------------------------------------------------------------------

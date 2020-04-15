@@ -11,8 +11,8 @@ from piece import Piece
 #---------------------------------------------------------------------------
 #Print invalid mensage
 #---------------------------------------------------------------------------
-def invalid_mensage():
-    print("Invalid Input")
+def show_mensage(text):
+    print(text)
     time.sleep(1)
 #---------------------------------------------------------------------------
 #Check piece of type of player turn
@@ -25,15 +25,40 @@ def select_piece(position,_game,_turn,_type_of_player):
     type_piece = _game.get_type_of_pos(position)
     if type_piece == _type_of_player[_turn]:
         return _game.get_piece(position)
-    invalid_mensage()
-
+    show_mensage("Invalid Input")
     return select_piece(position,_game,_turn,_type_of_player)
 #---------------------------------------------------------------------------
 #Draw squares to move
 #---------------------------------------------------------------------------
-def draw_move(_list):
-    for piece in _list:
-        piece.type = u"\u25A9"+u"\u25A9"+u"\u25A9"
+def draw_move(_game,_list):
+    for i in range(len(_list)):
+        _list[i].type = u"\u25E4 "+str(i)+u" \u25E5"
+    easy_print(game)    
+#-------------------------------------------------------------------------------
+#Set piece blank based in list
+#-------------------------------------------------------------------------------
+def set_blank(_list):
+    for i in range(len(_list)):
+        _list[i].type = "blank"
+#-------------------------------------------------------------------------------    
+#-------------------------------------------------------------------------------
+def recursion_move_piece(game,turn,type_of_player):
+    #------------------------------------------------------------
+    #Get piece select of player
+    #------------------------------------------------------------
+    before = select_piece(Position(0,0),game,turn,type_of_player)
+    #------------------------------------------------------------
+    #Get pos to move
+    #------------------------------------------------------------
+    pieces_move = game.verify_diagonal_move(before)
+    #------------------------------------------------------------
+    #verify piece exixte move
+    #------------------------------------------------------------
+    if len(pieces_move) == 0:
+        show_mensage("Select another piece")
+        return recursion_move_piece(game,turn,type_of_player)
+    #------------------------------------------------------------    
+    return before,pieces_move
 #-------------------------------------------------------------------------------
 #Verify if this instace is main thered 
 #-------------------------------------------------------------------------------
@@ -59,22 +84,24 @@ if __name__ == "__main__":
             #If exist any piece to eating, eat
             #-------------------------------------------------------------------
             if len(pieces_eating) > 0:
-                print("eating")
-                pass
+                #---------------------------------------------------------------
+                #Dray possiblity to eat
+                #---------------------------------------------------------------
+                draw_move(game,pieces_eating)
+                #---------------------------------------------------------------
             #-------------------------------------------------------------------
             #If not select one piace to move
             #-------------------------------------------------------------------
             else:
+                before, pieces_move = recursion_move_piece(game,turn,type_of_player)
+                #Dray possiblity to move
                 #---------------------------------------------------------------
-                #Get piece select of player
+                draw_move(game,pieces_move)
                 #---------------------------------------------------------------
-                before = select_piece(Position(0,0),game,turn,type_of_player)
-                #---------------------------------------------------------------
-                #Get pos to move
-                #---------------------------------------------------------------
-                pieces_move = game.verify_diagonal_move(before)
-                #---------------------------------------------------------------
-                draw_move(pieces_move)
+                move = int(input("Select move: "))
+                set_blank(pieces_move)
+                game.move(before,pieces_move[move])
+
             #-------------------------------------------------------------------
             #Change turn to machine
             #-------------------------------------------------------------------

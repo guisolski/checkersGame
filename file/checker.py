@@ -47,18 +47,14 @@ class Checker():
                     board.set_piece(Piece("blank",pos))
         return board
     #---------------------------------------------------------------------------
-    #move piece based in positions
+    #Change places of pieces
     #---------------------------------------------------------------------------
-    def move(self,pos_before,pos_after):
-        #Get piece in pos changing
-        obj_in_pos_before = self.board.get_pos(pos_before)
-        obj_in_pos_after  = self.board.get_pos(pos_after)
+    def move(self,before,after):
         #Set new pos in piece
-        obj_in_pos_before.pos = pos_after
-        obj_in_pos_after.pos = pos_before
+        before.pos,after.pos = after.pos , before.pos
         #Changing piece of places
-        self.board.set_value_pos(obj_in_pos_after,pos_before)
-        self.board.set_value_pos(obj_in_pos_before,pos_after)
+        self.board.set_piece(before)
+        self.board.set_piece(after)
     #---------------------------------------------------------------------------
     #checks if the received piece eats any enemy pieces diagonally
     #---------------------------------------------------------------------------
@@ -100,7 +96,7 @@ class Checker():
             except:
                 pass
             #---------------------------------------------------------------                 
-            return return_eat
+            return self.pos_to_piece(return_eat)
         return None
     #---------------------------------------------------------------------------
     #Conver list of position to list of piece
@@ -190,11 +186,11 @@ class Checker():
                     print("|",end="")
                 _type = _board[line][col].type
                 if _type == "white":
-                    print("_"+u"\u25CF"+"_", end="|")
+                    print("__"+u"\u25CF"+"__", end="|")
                 elif _type == "black":
-                    print("_"+u"\u25CB"+"_", end="|")  
+                    print("__"+u"\u25CB"+"__", end="|")  
                 elif _type == "blank":
-                    print("_"+"__",end="|")
+                    print("___"+"__",end="|")
                 else:
                     print(_type,end="|")
 

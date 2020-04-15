@@ -19,4 +19,15 @@ def getKey():
 def easy_print(game):
     clear()
     game.print_board()
+
+
 #---------------------------------------------------------------------------
+def dic_keys(dic):
+    flat_list = list(dic.keys())
+    flatten = lambda l: [item for sublist in l for item in sublist]
+    return list(dic.keys())
+#---------------------------------------------------------------------------
+def dic_values(dic):
+    flat_list = list(dic.values())
+    flatten = lambda l: [item for sublist in l for item in sublist]
+    return flatten(flat_list)

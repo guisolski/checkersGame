@@ -62,37 +62,54 @@ class Checker():
         if _piece.type != "blank":
             pos = _piece.pos        
             _type = self.conversion[_piece.type] * -1
+            print()
             blank = "blank"
             return_eat = []
             #---------------------------------------------------------------
             #one horizantal direction (-y)
             #---------------------------------------------------------------
             try:
-                if self.get_type_of_pos(Position(pos.x+1, pos.y-1)) == _type:
-                    if self.get_type_of_pos(Position(pos.x+2, pos.y-2)) == blank:
-                        return_eat.append(Position(pos.x+2, pos.y-2))
+                pos_after = Position(pos.x+1, pos.y-1)
+                _int_type = self.conversion[self.get_type_of_pos(pos_after)]
+                if _int_type == _type:
+                    pos_after.x = pos_after.x +1
+                    pos_after.y = pos_after.y -1
+                    if self.get_type_of_pos(pos_after) == blank:
+                        return_eat.append(pos_after)
             except:
                 pass
             
             try:
-                if self.get_type_of_pos(Position(pos.x-1, pos.y-1)) == _type:
-                    if self.get_type_of_pos(Position(pos.x-2, pos.y-2)) == blank:
-                        return_eat.append(Position(pos.x-2, pos.y-2))
+                pos_after = Position(pos.x-1, pos.y-1)
+                _int_type = self.conversion[self.get_type_of_pos(pos_after)]
+                if _int_type == _type:
+                    pos_after.x = pos_after.x -1
+                    pos_after.y = pos_after.y -1
+                    if self.get_type_of_pos(pos_after) == blank:
+                        return_eat.append(pos_after)
             except:
                 pass
             #---------------------------------------------------------------
             #one horizantal direction (+y)
             #---------------------------------------------------------------
             try:
-                if self.get_type_of_pos(Position(pos.x+1, pos.y+1)) == _type:
-                    if self.get_type_of_pos(Position(pos.x+2, pos.y+2)) == blank:
-                        return_eat.append(Position(pos.x+2, pos.y+1))
+                pos_after = Position(pos.x+1, pos.y+1)
+                _int_type = self.conversion[self.get_type_of_pos(pos_after)]
+                if _int_type == _type:
+                    pos_after.x = pos_after.x +1
+                    pos_after.y = pos_after.y +1
+                    if self.get_type_of_pos(pos_after) == blank:
+                        return_eat.append(pos_after)
             except:
                 pass
             try:
-                if self.get_type_of_pos(Position(pos.x-1, pos.y+1)) == _type:
-                    if self.get_type_of_pos(Position(pos.x-2, pos.y+2)) == blank:
-                        return_eat.append(Position(pos.x-2, pos.y+1))
+                pos_after = Position(pos.x-1, pos.y+1)
+                _int_type = self.conversion[self.get_type_of_pos(pos_after)]
+                if _int_type == _type:
+                    pos_after.x = pos_after.x -1
+                    pos_after.y = pos_after.y +1
+                    if self.get_type_of_pos(pos_after) == blank:
+                        return_eat.append(pos_after)
             except:
                 pass
             #---------------------------------------------------------------                 
@@ -148,15 +165,15 @@ class Checker():
     #very all piece by past type
     #---------------------------------------------------------------------------
     def verify_any_piece_eating(self,_type):
-        _board = self.board.board
         pieces_eating = {}
-        for line in range(len(_board)):
-            for col in range(len(_board[line])):
-                piece = _board[line][col]
-                eating = self.verify_diagonal_eating(piece)
-                if eating != None: 
-                    if len(eating) > 0:
-                        pieces_eating[piece] = eating
+        for y in range(self.line_size):
+            for x in range(self.col_size):
+                piece = self.get_piece(Position(x,y))
+                if piece.type == _type:
+                    eating = self.verify_diagonal_eating(piece)
+                    if eating != None: 
+                        if len(eating) > 0:
+                            pieces_eating[piece] =  eating
         return pieces_eating
     #---------------------------------------------------------------------------
     #set one piece in board
@@ -183,7 +200,7 @@ class Checker():
     #---------------------------------------------------------------------------
     def print_board(self):
         _board = self.board.board
-        print("-"+"-"*4*self.col_size)
+        print("-"+"-"*6*self.col_size)
         for line in range(len(_board)):
             for col in range(len(_board[line])):
                 if col == 0:
@@ -199,5 +216,7 @@ class Checker():
                     print(_type,end="|")
 
             print("")
-        print("-"+"-"*4*self.col_size)
+        print("-"+"-"*6*self.col_size)
     #---------------------------------------------------------------------------
+
+

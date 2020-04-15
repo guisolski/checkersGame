@@ -118,12 +118,14 @@ class Checker():
             #one horizantal direction (-y)
             #------------------------------------------------------------
             try:
-                if self.get_type_of_pos(Position(pos.x+1, pos.y-1)) == blank:
-                    move.append(Position(pos.x+1, pos.y-1))
+                pos_after = Position(pos.x+1, pos.y-1)
+                if self.get_type_of_pos(pos_after) == blank:
+                    move.append(pos_after)
             except: pass
             try:
-                if self.get_type_of_pos(Position(pos.x-1, pos.y-1)) == blank:
-                    move.append(Position(pos.x-1, pos.y-1))
+                pos_after = Position(pos.x-1, pos.y-1)
+                if self.get_type_of_pos(pos_after) == blank:
+                    move.append(pos_after)
             except: pass
             #------------------------------------------------------------
         if _piece.type == "black" or _piece.lady == True:
@@ -131,12 +133,14 @@ class Checker():
             #one horizantal direction (+y)
             #------------------------------------------------------------
             try:
-                if self.get_type_of_pos(Position(pos.x+1, pos.y+1)) == blank:
-                    move.append(Position(pos.x+1, pos.y+1))
+                pos_after = Position(pos.x+1, pos.y+1)
+                if self.get_type_of_pos(pos_after) == blank:
+                    move.append(pos_after)
             except: pass
             try:
-                if self.get_type_of_pos(Position(pos.x-1, pos.y+1)) == blank:
-                    move.append(Position(pos.x-1, pos.y+1))
+                pos_after = Position(pos.x-1, pos.y+1)
+                if self.get_type_of_pos(pos_after) == blank:
+                    move.append(pos_after)
             except: pass
             #------------------------------------------------------------
         return self.pos_to_piece(move)

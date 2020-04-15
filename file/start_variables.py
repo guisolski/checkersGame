@@ -25,5 +25,6 @@ def start():
     clear()
     loop = True
     game = Checker()
+    
     return type_of_player, turn, loop, game, number_of_piece
 #-------------------------------------------------------------------------------

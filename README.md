@@ -17,3 +17,11 @@
 
 ## Moviment Mechanics 
 ![board](/images/diagram-moviment.png)
+
+
+
+isso se não pode comer
+    [lista da peça q podem mover]
+    [pego uma da lista]
+    [vejo o movimento pra esquerda] [movimento para direita]
+    

@@ -22,11 +22,11 @@ def walk(_pos,game):
             if key == 'A':
                 _pos.x = _pos.x-1 if _pos.x >= 1 else _pos.x
             elif key == 'D':
-                _pos.x = _pos.x+1 if _pos.x <= game.line_size-2 else _pos.x
+                _pos.x = _pos.x+1 if _pos.x < game.line_size-1 else _pos.x
             elif key == 'W':
                 _pos.y = _pos.y-1 if _pos.y >= 1 else _pos.y
             elif key == 'S':
-                _pos.y = _pos.y+1 if _pos.y <= game.line_size-2 else _pos.y
+                _pos.y = _pos.y+1 if _pos.y < game.line_size-1 else _pos.y
         if old_pos != _pos:
             game.set_piece(piece)
             old_pos.x = _pos.x

@@ -55,10 +55,24 @@ def recursion_move_piece(game,turn,type_of_player):
     #verify piece exixte move
     #------------------------------------------------------------
     if len(pieces_move) == 0:
-        show_mensage("Select another piece")
+        show_mensage("S'elect another piece")
         return recursion_move_piece(game,turn,type_of_player)
     #------------------------------------------------------------    
     return before,pieces_move
+#-------------------------------------------------------------------------------
+def select_move(piece__move, before):
+    mesage = "Try Again"
+    try:
+        move = int(input("Select move: "))
+    except:
+        show_mensage(mesage)
+        select_move(pieces_move,before)
+    if move >= 0 and move < len(pieces_move):
+        set_blank(pieces_move)
+        game.move(before,pieces_move[move])
+        return True
+    show_mensage(mesage)
+    return select_move(pieces_move,before)
 #-------------------------------------------------------------------------------
 #Verify if this instace is main thered 
 #-------------------------------------------------------------------------------
@@ -98,9 +112,7 @@ if __name__ == "__main__":
                 #---------------------------------------------------------------
                 draw_move(game,pieces_move)
                 #---------------------------------------------------------------
-                move = int(input("Select move: "))
-                set_blank(pieces_move)
-                game.move(before,pieces_move[move])
+                select_move(pieces_move,before)
 
             #-------------------------------------------------------------------
             #Change turn to machine

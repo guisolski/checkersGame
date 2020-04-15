@@ -16,8 +16,12 @@ class Position():
                 self.y = None
         #Recive two arguments create position in space
         elif len(_args) == 2:
-            self.x = int(_args[0])
-            self.y = int(_args[1])
+            '''
+                I can't accept negative because python when receiving
+                -1 in the array returns the last position
+            '''
+            self.x = int(_args[0]) if _args[0] >= 0 else None
+            self.y = int(_args[1]) if _args[1] >= 0 else None
         #Recive another arguments creat Null space 
         else:
             self.x = None

@@ -55,6 +55,13 @@ class Checker():
         #Changing piece of places
         self.board.set_piece(before)
         self.board.set_piece(after)
+        if before.type == "white":
+            if after.pos.y == 0:
+                before.lady = True
+        else:
+            if after.pos.y == 9:
+                before.lady = True
+
     #---------------------------------------------------------------------------
     #checks if the received piece eats any enemy pieces diagonally
     #---------------------------------------------------------------------------

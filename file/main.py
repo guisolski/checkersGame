@@ -141,8 +141,7 @@ if __name__ == "__main__":
     #Incializa varibles
     #---------------------------------------------------------------------------
     type_of_player, turn, loop, game,number_of_piece = start_variables.start()
-    game.move(game.get_piece(Position(2,3)),game.get_piece(Position(0,5)))
-    game.move(game.get_piece(Position(1,2)),game.get_piece(Position(2,3)))
+    
     #---------------------------------------------------------------------------
     #Print the board incialize
     #easy_print(game)

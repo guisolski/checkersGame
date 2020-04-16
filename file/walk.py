@@ -20,13 +20,13 @@ def walk(_pos,game):
             key = getKey().upper()
             print(key)
             if key == 'A':
-                _pos.x = _pos.x-1 if _pos.x >= 1 else _pos.x
+                _pos.x = _pos.x-1 if _pos.x >= 1 else game.line_size-1
             elif key == 'D':
-                _pos.x = _pos.x+1 if _pos.x < game.line_size-1 else _pos.x
+                _pos.x = _pos.x+1 if _pos.x < game.line_size-1 else 0
             elif key == 'W':
-                _pos.y = _pos.y-1 if _pos.y >= 1 else _pos.y
+                _pos.y = _pos.y-1 if _pos.y >= 1 else game.line_size-1
             elif key == 'S':
-                _pos.y = _pos.y+1 if _pos.y < game.line_size-1 else _pos.y
+                _pos.y = _pos.y+1 if _pos.y < game.line_size-1 else 0
         if old_pos != _pos:
             game.set_piece(piece)
             old_pos.x = _pos.x

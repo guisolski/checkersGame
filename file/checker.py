@@ -72,7 +72,10 @@ class Checker():
                 pos_after = Position(pos.x+1, pos.y-1)
                 _int_type = self.conversion[self.get_type_of_pos(pos_after)]
                 if _int_type == _type:
-                    pos_after.x = pos_after.x +1
+                    if pos_after.x +1 <= self.col_size:
+                        pos_after.x = pos_after.x +1
+                    else:
+                        pos_after.x = pos_after.x -1
                     pos_after.y = pos_after.y -1
                     if self.get_type_of_pos(pos_after) == blank:
                         return_eat.append(pos_after)
@@ -83,7 +86,10 @@ class Checker():
                 pos_after = Position(pos.x-1, pos.y-1)
                 _int_type = self.conversion[self.get_type_of_pos(pos_after)]
                 if _int_type == _type:
-                    pos_after.x = pos_after.x -1
+                    if pos_after.x -1 >= 0:
+                        pos_after.x = pos_after.x -1
+                    else:
+                        pos_after.x = pos_after.x +1
                     pos_after.y = pos_after.y -1
                     if self.get_type_of_pos(pos_after) == blank:
                         return_eat.append(pos_after)
@@ -96,7 +102,10 @@ class Checker():
                 pos_after = Position(pos.x+1, pos.y+1)
                 _int_type = self.conversion[self.get_type_of_pos(pos_after)]
                 if _int_type == _type:
-                    pos_after.x = pos_after.x +1
+                    if pos_after.x +1 <= self.col_size:
+                        pos_after.x = pos_after.x +1
+                    else:
+                        pos_after.x = pos_after.x -1
                     pos_after.y = pos_after.y +1
                     if self.get_type_of_pos(pos_after) == blank:
                         return_eat.append(pos_after)
@@ -106,7 +115,10 @@ class Checker():
                 pos_after = Position(pos.x-1, pos.y+1)
                 _int_type = self.conversion[self.get_type_of_pos(pos_after)]
                 if _int_type == _type:
-                    pos_after.x = pos_after.x -1
+                    if pos_after.x -1 >= 0:
+                        pos_after.x = pos_after.x -1
+                    else:
+                        pos_after.x = pos_after.x +1
                     pos_after.y = pos_after.y +1
                     if self.get_type_of_pos(pos_after) == blank:
                         return_eat.append(pos_after)

@@ -39,7 +39,10 @@ def draw_move(_game,_list):
 #Draw squares to eating
 #---------------------------------------------------------------------------
 def draw_eat(_game,_list):
-    values = dic_values(_list)
+    if isinstance(_list, list):
+        values = _list
+    else:
+        values = dic_values(_list)
     for i in range(len(_list)):
         values[i].type = u"\u25E4 "+str(i)+u" \u25E5"
     easy_print(game)    
@@ -70,7 +73,10 @@ def recursion_move_piece(game,turn,type_of_player):
     return before,pieces_move
 #-------------------------------------------------------------------------------
 def select_eat(_list):
-    values = dic_values(_list)
+    if isinstance(_list, list):
+        values = _list
+    else:
+        values = dic_values(_list)
     try:
         eat = int(input("Select eat: "))
     except:
@@ -100,6 +106,11 @@ def piece_delete(before,after):
         x_delete += 1
     elif after.pos.x < before.pos.x:
         x_delete -= 1
+    elif after.pos.x == before.pos.x:
+        if after.pos.x == 1:
+            x_delete -= 1
+        elif after.pos.x == 8:
+            x_delete += 1
     #----------------------------
     y_delete = before.pos.y
     if after.pos.y > before.pos.y:
@@ -108,6 +119,21 @@ def piece_delete(before,after):
         y_delete -= 1 
     return game.get_piece(Position(x_delete,y_delete))
 #-------------------------------------------------------------------------------
+def eat_again (piece,game):
+    pieces_eat  = game.verify_diagonal_eating(piece)
+    if len(pieces_eat) > 0:
+        easy_print(game)
+        print(piece.type)
+        piece.pos._print()
+        draw_eat(game,pieces_eat)
+        eat = select_eat(pieces_eat)
+        delete = piece_delete(piece,pieces_eat[eat])
+        delete.type = "blank"
+        number_of_piece["machine"] = number_of_piece["machine"]-1
+        game.move(piece,pieces_eat[eat])
+        easy_print(game)
+        return eat_again(piece,game)
+#-------------------------------------------------------------------------------
 #Verify if this instace is main thered 
 #-------------------------------------------------------------------------------
 if __name__ == "__main__":
@@ -115,7 +141,8 @@ if __name__ == "__main__":
     #Incializa varibles
     #---------------------------------------------------------------------------
     type_of_player, turn, loop, game,number_of_piece = start_variables.start()
-    game.move(game.get_piece(Position(2,3)),game.get_piece(Position(2,5)))
+    game.move(game.get_piece(Position(2,3)),game.get_piece(Position(0,5)))
+    game.move(game.get_piece(Position(1,2)),game.get_piece(Position(2,3)))
     #---------------------------------------------------------------------------
     #Print the board incialize
     #easy_print(game)
@@ -146,9 +173,8 @@ if __name__ == "__main__":
                 delete.type = "blank"
                 number_of_piece["machine"] = number_of_piece["machine"]-1
                 game.move(keys[eat],values[eat])
-                delete.type = "blank"
+                eat_again(keys[eat],game)
                 #---------------------------------------------------------------
-
             #-------------------------------------------------------------------
             #If not select one piace to move
             #-------------------------------------------------------------------
@@ -177,5 +203,4 @@ if __name__ == "__main__":
         easy_print(game)
         #-----------------------------------------------------------------------
         #sys.exit(1)
-        
 #-------------------------------------------------------------------------------

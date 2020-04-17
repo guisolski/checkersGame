@@ -143,12 +143,31 @@ class Checker():
             pieces.append(self.get_piece(i))
         return pieces
     #---------------------------------------------------------------------------
+    def recursion_lady(self,_list,_pos,_diagonal):
+        _list.append(self.get_piece(_pos))
+        _pos.x += _diagonal[0]
+        _pos.y += _diagonal[1]
+        if _pos.x >= 0 and _pos.x < self.col_size: 
+            if _pos.y >=0 and _pos.y < self.line_size-1:
+                _pos._print()
+                _type_pos = self.get_type_of_pos(_pos)
+                if _type_pos == "blank":
+                    self.recursion_lady(_list,_pos,_diagonal)
+        return _list
+    #---------------------------------------------------------------------------
+    def lady_move(self,_move,_diagonal):
+        _return = []
+        for i in range(len(_move)):
+            _return.append(self.recursion_lady([],_move[i],_diagonal[i]))
+        return _return 
+    #---------------------------------------------------------------------------
     #checks if the stride piece moves on any diagonal
     #---------------------------------------------------------------------------
     def verify_diagonal_move(self,_piece):
         pos = _piece.pos
         blank = "blank"
         move = []
+        _diagonal = []
         if _piece.type == "white" or _piece.lady == True:
             #------------------------------------------------------------
             #one horizantal direction (-y)
@@ -157,11 +176,13 @@ class Checker():
                 pos_after = Position(pos.x+1, pos.y-1)
                 if self.get_type_of_pos(pos_after) == blank:
                     move.append(pos_after)
+                    _diagonal.append([1,-1])
             except: pass
             try:
                 pos_after = Position(pos.x-1, pos.y-1)
                 if self.get_type_of_pos(pos_after) == blank:
                     move.append(pos_after)
+                    _diagonal.append([-1,-1])
             except: pass
             #------------------------------------------------------------
         if _piece.type == "black" or _piece.lady == True:
@@ -172,13 +193,17 @@ class Checker():
                 pos_after = Position(pos.x+1, pos.y+1)
                 if self.get_type_of_pos(pos_after) == blank:
                     move.append(pos_after)
+                    _diagonal.append([1,1])
             except: pass
             try:
                 pos_after = Position(pos.x-1, pos.y+1)
                 if self.get_type_of_pos(pos_after) == blank:
                     move.append(pos_after)
+                    _diagonal.append([-1,+1])
             except: pass
             #------------------------------------------------------------
+        if _piece.lady == True:
+            return self.lady_move(move,_diagonal)
         return self.pos_to_piece(move)
     #---------------------------------------------------------------------------
     #very all piece by past type
@@ -219,23 +244,23 @@ class Checker():
     #---------------------------------------------------------------------------
     def print_board(self):
         _board = self.board.board
-        print("-"+"-"*6*self.col_size)
+        print("-"+"-"*8*self.col_size)
         for line in range(len(_board)):
             for col in range(len(_board[line])):
                 if col == 0:
                     print("|",end="")
                 _type = _board[line][col].type
                 if _type == "white":
-                    print("__"+u"\u25CF"+"__", end="|")
+                    print("___"+u"\u25CF"+"___", end="|")
                 elif _type == "black":
-                    print("__"+u"\u25CB"+"__", end="|")  
+                    print("___"+u"\u25CB"+"___", end="|")  
                 elif _type == "blank":
-                    print("___"+"__",end="|")
+                    print("_______",end="|")
                 else:
                     print(_type,end="|")
 
             print("")
-        print("-"+"-"*6*self.col_size)
+        print("-"+"-"*8*self.col_size)
     #---------------------------------------------------------------------------
 
 

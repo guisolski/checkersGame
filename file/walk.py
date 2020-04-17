@@ -32,7 +32,7 @@ def walk(_pos,game):
             old_pos.x = _pos.x
             old_pos.y = _pos.y
             piece = game.get_piece(_pos)
-            game.set_piece(Piece(u"\u25AE"+u"\u25AE"+u"\u25AE"+u"\u25AE"+u"\u25AE",_pos))
+            game.set_piece(Piece(u"\u25AE"+u"\u25AE"+u"\u25AE"+u"\u25AE"+u"\u25AE"+u"\u25AE"+u"\u25AE",_pos))
         easy_print(game)
         intruction()
         time.sleep(0.2)

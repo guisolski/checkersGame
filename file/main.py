@@ -31,8 +31,13 @@ def select_piece(position,_game,_turn,_type_of_player):
 #Draw squares to move
 #---------------------------------------------------------------------------
 def draw_move(_game,_list):
-    for i in range(len(_list)):
-        _list[i].type = u"\u25E4 "+str(i)+u" \u25E5"
+    if isinstance(_list[0],list):
+        for i in range(len(_list)):
+            for a in range(len(_list[i])) :
+                _list[i][a].type = u"\u25E4 "+str(i)+":"+str(a) +u" \u25E5"
+    else:     
+        for i in range(len(_list)):
+            _list[i].type = u"\u25E4  "+str(i)+u"  \u25E5"
     easy_print(game)    
 #-------------------------------------------------------------------------------
 #---------------------------------------------------------------------------
@@ -44,14 +49,19 @@ def draw_eat(_game,_list):
     else:
         values = dic_values(_list)
     for i in range(len(_list)):
-        values[i].type = u"\u25E4 "+str(i)+u" \u25E5"
+        values[i].type = u"\u25E4  "+str(i)+u"  \u25E5"
     easy_print(game)    
 #-------------------------------------------------------------------------------
 #Set piece blank based in list
 #-------------------------------------------------------------------------------
 def set_blank(_list):
-    for i in range(len(_list)):
-        _list[i].type = "blank"
+    if isinstance(_list[0],list):
+        for i in range(len(_list)):
+            for a in range(len(_list[i])) :
+                _list[i][a].type = "blank"
+    else:
+        for i in range(len(_list)):
+            _list[i].type = "blank"
 #-------------------------------------------------------------------------------    
 #-------------------------------------------------------------------------------
 def recursion_move_piece(game,turn,type_of_player):
@@ -88,14 +98,28 @@ def select_eat(_list):
 #-------------------------------------------------------------------------------
 def select_move(piece__move):
     mesage = "Try Again"
-    try:
-        move = int(input("Select move: "))
-    except:
-        show_mensage(mesage)
-        select_move(pieces_move)
-    if move >= 0 and move < len(pieces_move):
-        set_blank(pieces_move)
-        return move
+    if isinstance(piece__move[0],list):
+        try:
+            move = list(map(int,input("Select move (Exemple 0:0): ").strip()
+            .split(":")))
+        except:
+            show_mensage(mesage)
+            select_move(pieces_move)
+        print(move)
+        if move[0] >= 0 and move[0] < len(pieces_move):
+            if move[1] >=0 and move[1] < len(piece__move[move[0]]): 
+                set_blank(pieces_move)
+                return move
+    else:
+        try:
+            move = int(input("Select move: "))
+        except:
+            show_mensage(mesage)
+            select_move(pieces_move)
+        
+        if move >= 0 and move < len(pieces_move):
+            set_blank(pieces_move)
+            return move
     show_mensage(mesage)
     return select_move(pieces_move)
 #-------------------------------------------------------------------------------
@@ -133,6 +157,8 @@ def eat_again (piece,game):
         game.move(piece,pieces_eat[eat])
         easy_print(game)
         return eat_again(piece,game)
+
+
 #-------------------------------------------------------------------------------
 #Verify if this instace is main thered 
 #-------------------------------------------------------------------------------
@@ -141,7 +167,7 @@ if __name__ == "__main__":
     #Incializa varibles
     #---------------------------------------------------------------------------
     type_of_player, turn, loop, game,number_of_piece = start_variables.start()
-    
+    game.move(game.get_piece(Position(8,3)),game.get_piece(Position(8,5)))
     #---------------------------------------------------------------------------
     #Print the board incialize
     #easy_print(game)
@@ -159,7 +185,6 @@ if __name__ == "__main__":
             #If exist any piece to eating, eat
             #-------------------------------------------------------------------
             if len(pieces_eating) > 0:
-                
                 #---------------------------------------------------------------
                 #Dray possiblity to eat
                 #---------------------------------------------------------------
@@ -186,7 +211,10 @@ if __name__ == "__main__":
                 draw_move(game,pieces_move)
                 #-------------------------------------------------------------------
                 move = select_move(pieces_move)
-                game.move(before,pieces_move[move])
+                if isinstance(move, list):
+                    game.move(before,pieces_move[move[0]][move[1]])
+                else:
+                    game.move(before,pieces_move[move])
                 #-------------------------------------------------------------------
             #-------------------------------------------------------------------
             #Change turn to machine
@@ -195,6 +223,11 @@ if __name__ == "__main__":
             #-------------------------------------------------------------------
         #machine player
         else:
+            #-------------------------------------------------------------------
+            #Get any piece possibility eating 
+            #-------------------------------------------------------------------
+            pieces_eating  = game.verify_any_piece_eating(type_of_player[turn])
+            
             turn = "human"
         #-----------------------------------------------------------------------
         #Print board

@@ -19,8 +19,6 @@ def getKey():
 def easy_print(game):
     clear()
     game.print_board()
-
-
 #---------------------------------------------------------------------------
 def dic_keys(dic):
     flat_list = list(dic.keys())

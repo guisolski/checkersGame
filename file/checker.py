@@ -21,6 +21,7 @@ class Checker():
         #math conversion more easy, * -1
         #--------------------------------------------
         self.conversion = {"white" : 1, "black" : -1}
+        self.white_piece,self.black_piece =[],[]
         #--------------------------------------------
         #inicialize board
         #-----------------------------------
@@ -35,14 +36,20 @@ class Checker():
         for line in range(self.line_size):
             for col in range(self.col_size):
                 pos = Position(col,line)
-                if (line == 0 or line == 2) and col%2 != 0:
-                    board.set_piece(Piece("black",pos))
-                elif (line == 1 or line == 3) and col%2 == 0:
-                    board.set_piece(Piece("black",pos))
-                elif (line == 9 or line == 7) and col%2 == 0:
-                    board.set_piece(Piece("white",pos))
-                elif (line == 8 or line == 6) and col%2 != 0:
-                    board.set_piece(Piece("white",pos))
+                if (((line == 0 or line == 2) and col%2 != 0)
+                    or
+                    ((line == 1 or line == 3) and col%2 == 0)
+                    ):
+                    piece = Piece("black",pos)
+                    board.set_piece(piece)
+                    self.black_piece.append(piece)
+                elif (((line == 9 or line == 7) and col%2 == 0)
+                    or
+                    ((line == 8 or line == 6) and col%2 != 0)
+                    ):
+                    piece =  Piece("white",pos)
+                    board.set_piece(piece)
+                    self.white_piece.append(piece)
                 else:
                     board.set_piece(Piece("blank",pos))
         return board

@@ -20,8 +20,20 @@
 
 
 
-isso se não pode comer
-    [lista da peça q podem mover]
-    [pego uma da lista]
-    [vejo o movimento pra esquerda] [movimento para direita]
-    
+
+
+Tree verify any play of piece to move
+
+Lady:
+    if lady: 
+         5
+    else:
+        [distance ,in straight line, to end the board]
+Protecd:
+     [dist another alied]
+
+H = L * p 
+
+
+
+

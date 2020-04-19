@@ -8,6 +8,7 @@ from position import Position
 import sys
 import time
 from piece import Piece
+from IA import get_piece_move
 #---------------------------------------------------------------------------
 #Print invalid mensage
 #---------------------------------------------------------------------------
@@ -147,8 +148,6 @@ def eat_again (piece,game):
     pieces_eat  = game.verify_diagonal_eating(piece)
     if len(pieces_eat) > 0:
         easy_print(game)
-        print(piece.type)
-        piece.pos._print()
         draw_eat(game,pieces_eat)
         eat = select_eat(pieces_eat)
         delete = piece_delete(piece,pieces_eat[eat])
@@ -158,6 +157,16 @@ def eat_again (piece,game):
         easy_print(game)
         return eat_again(piece,game)
 
+def eat_again_ia (piece,game):
+    pieces_eat  = game.verify_diagonal_eating(piece)
+    if len(pieces_eat) > 0:
+        eat = 0
+        delete = piece_delete(piece,pieces_eat[eat])
+        delete.type = "blank"
+        number_of_piece["machine"] = number_of_piece["machine"]-1
+        game.move(piece,pieces_eat[eat])
+        easy_print(game)
+        return eat_again(piece,game)
 
 #-------------------------------------------------------------------------------
 #Verify if this instace is main thered 
@@ -167,7 +176,7 @@ if __name__ == "__main__":
     #Incializa varibles
     #---------------------------------------------------------------------------
     type_of_player, turn, loop, game,number_of_piece = start_variables.start()
-    game.move(game.get_piece(Position(8,3)),game.get_piece(Position(8,5)))
+    #game.move(game.get_piece(Position(8,3)),game.get_piece(Position(8,5)))
     #---------------------------------------------------------------------------
     #Print the board incialize
     #easy_print(game)
@@ -192,7 +201,7 @@ if __name__ == "__main__":
                 eat = select_eat(pieces_eating)
                 keys = dic_keys(pieces_eating)
                 values = dic_values(pieces_eating)
-                before,after = keys[0], values[0]
+                before,after = keys[eat], values[eat]
                 delete = piece_delete(before,after)
                 delete.type = "blank"
                 number_of_piece["machine"] = number_of_piece["machine"]-1
@@ -227,7 +236,31 @@ if __name__ == "__main__":
             #Get any piece possibility eating 
             #-------------------------------------------------------------------
             pieces_eating  = game.verify_any_piece_eating(type_of_player[turn])
-            
+             #-------------------------------------------------------------------
+            #If exist any piece to eating, eat
+            #-------------------------------------------------------------------
+            if len(pieces_eating) > 0:
+                eat = 0
+                keys = dic_keys(pieces_eating)
+                values = dic_values(pieces_eating)
+                before,after = keys[eat], values[eat]
+                delete = piece_delete(before,after)
+                delete.type = "blank"
+                number_of_piece["human"] = number_of_piece["human"]-1
+                game.move(keys[eat],values[eat])
+                eat_again(keys[eat],game)
+            else:
+                piece_move = get_piece_move(game,type_of_player)
+                #-----------------------------------------------
+                #logic of IA
+                #-----------------------------------------------
+                first = next(iter(piece_move))
+                
+                game.move(first, piece_move[first][0])
+                easy_print(game)
+                
+
+                
             turn = "human"
         #-----------------------------------------------------------------------
         #Print board

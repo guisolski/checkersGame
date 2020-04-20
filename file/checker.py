@@ -63,10 +63,10 @@ class Checker():
         self.board.set_piece(before)
         self.board.set_piece(after)
         if before.type == "white":
-            if after.pos.y == 0:
+            if before.pos.y == 0:
                 before.lady = True
         else:
-            if after.pos.y == 9:
+            if before.pos.y == 9:
                 before.lady = True
 
     #---------------------------------------------------------------------------

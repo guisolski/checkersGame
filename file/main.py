@@ -8,7 +8,8 @@ from position import Position
 import sys
 import time
 from piece import Piece
-from IA import get_piece_move
+from IA import get_piece_move,make_tree
+from minmax import minimax
 #---------------------------------------------------------------------------
 #Print invalid mensage
 #---------------------------------------------------------------------------
@@ -99,6 +100,7 @@ def select_eat(_list):
 #-------------------------------------------------------------------------------
 def select_move(piece__move):
     mesage = "Try Again"
+    move = -1
     if isinstance(piece__move[0],list):
         try:
             move = list(map(int,input("Select move (Exemple 0:0): ").strip()
@@ -176,10 +178,7 @@ if __name__ == "__main__":
     #Incializa varibles
     #---------------------------------------------------------------------------
     type_of_player, turn, loop, game,number_of_piece = start_variables.start()
-    #game.move(game.get_piece(Position(8,3)),game.get_piece(Position(8,5)))
-    #---------------------------------------------------------------------------
-    #Print the board incialize
-    #easy_print(game)
+    MAX, MIN = sys.maxsize, sys.maxsize*-1 
     #---------------------------------------------------------------------------
     #Loop of the game
     #---------------------------------------------------------------------------
@@ -254,13 +253,17 @@ if __name__ == "__main__":
                 #-----------------------------------------------
                 #logic of IA
                 #-----------------------------------------------
-                first = next(iter(piece_move))
-                
-                game.move(first, piece_move[first][0])
-                easy_print(game)
-                
-
-                
+                tree,heuristic_piece = make_tree(piece_move)
+                v = minimax(0,0,True,tree,MIN,MAX)
+                moviment = heuristic_piece[v]
+                index_m = 0
+                before =  next(iter(piece_move))
+                for i in piece_move:
+                    if moviment in piece_move[i]:
+                        index_m = piece_move[i].index(moviment)
+                        before = i
+                        break
+                game.move(before, piece_move[before][index_m])
             turn = "human"
         #-----------------------------------------------------------------------
         #Print board

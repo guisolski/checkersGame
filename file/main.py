@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------
 #Import all function and class use in main
 #-----------------------------------------------------------------------
-from util import dic_keys, dic_values,easy_print
+from util import dic_keys, dic_values,easy_print,origin_piece
 import start_variables
 from walk import walk
 from position import Position 
@@ -165,10 +165,11 @@ def eat_again_ia (piece,game):
         eat = 0
         delete = piece_delete(piece,pieces_eat[eat])
         delete.type = "blank"
-        number_of_piece["machine"] = number_of_piece["machine"]-1
+        number_of_piece["human"] = number_of_piece["human"]-1
         game.move(piece,pieces_eat[eat])
         easy_print(game)
         return eat_again(piece,game)
+    return None
 def end_game(_number_of_piece):
     if _number_of_piece["human"] == 0 or _number_of_piece["machine"] == 0:
         return False
@@ -182,10 +183,6 @@ if __name__ == "__main__":
     #---------------------------------------------------------------------------
     type_of_player, turn, loop, game,number_of_piece = start_variables.start()
     MAX, MIN = sys.maxsize, sys.maxsize*-1 
-    b = game.get_piece(Position(1,6))
-    game.move(b,game.get_piece(Position(0,5)))
-    easy_print(game)
-    
     #---------------------------------------------------------------------------
     #Loop of the game
     #---------------------------------------------------------------------------
@@ -254,37 +251,37 @@ if __name__ == "__main__":
                 delete.type = "blank"
                 number_of_piece["human"] = number_of_piece["human"]-1
                 game.move(keys[eat],values[eat])
-                eat_again(keys[eat],game)
+                eat_again_ia(keys[eat],game)
             else:
                 piece_move = get_piece_move(game,type_of_player)
                 #-----------------------------------------------
                 #logic of IA
                 #-----------------------------------------------
-                tree,heuristic_piece = make_tree(piece_move)
-                print(tree)
-                
+                #get tree and piece move referent
+                tree,heuristic_piece = make_tree(game,piece_move,type_of_player["machine"],piece_move)
+                #get the value of best move
                 v = minimax(0,0,True,tree,MIN,MAX)
-                print(v)
-                sys.exit(0)
+                #get the best move
                 moviment = heuristic_piece[v]
-                index_m = 0
-                before =  next(iter(piece_move))
-                for i in piece_move:
-                    if moviment in piece_move[i]:
-                        index_m = piece_move[i].index(moviment)
-                        before = i
-                        break
+                #index the move and origin piece
+                before,index_m = origin_piece(moviment,piece_move)
+                #play
                 game.move(before, piece_move[before][index_m])
+            #chancing turn
             turn = "human"
         #-----------------------------------------------------------------------
         #Print board
         #-----------------------------------------------------------------------
         easy_print(game)
+        #-----------------------------------------------------------------------
+        #Verify end game
+        #-----------------------------------------------------------------------
         loop  = end_game(number_of_piece)
         #-----------------------------------------------------------------------
-        #sys.exit(1)
 #-------------------------------------------------------------------------------
-
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 if number_of_piece["human"] != 0:
     print("Human Win")
 else:

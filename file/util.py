@@ -21,11 +21,24 @@ def easy_print(game):
     game.print_board()
 #---------------------------------------------------------------------------
 def dic_keys(dic):
-    flat_list = list(dic.keys())
-    flatten = lambda l: [item for sublist in l for item in sublist]
+    #flat_list = list(dic.keys())
+    #flatten = lambda l: [item for sublist in l for item in sublist]
     return list(dic.keys())
 #---------------------------------------------------------------------------
 def dic_values(dic):
     flat_list = list(dic.values())
     flatten = lambda l: [item for sublist in l for item in sublist]
     return flatten(flat_list)
+
+
+def origin_piece(moviment,piece_move):
+    #index the move
+    index_m = 0
+    #this is value of move, inicialize them first element of dic
+    before =  next(iter(piece_move))
+    for i in piece_move:
+        if moviment in piece_move[i]:
+            index_m = piece_move[i].index(moviment)
+            before = i
+            return before, index_m
+    return None

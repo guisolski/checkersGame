@@ -182,6 +182,10 @@ if __name__ == "__main__":
     #---------------------------------------------------------------------------
     type_of_player, turn, loop, game,number_of_piece = start_variables.start()
     MAX, MIN = sys.maxsize, sys.maxsize*-1 
+    b = game.get_piece(Position(1,6))
+    game.move(b,game.get_piece(Position(0,5)))
+    easy_print(game)
+    
     #---------------------------------------------------------------------------
     #Loop of the game
     #---------------------------------------------------------------------------
@@ -257,7 +261,11 @@ if __name__ == "__main__":
                 #logic of IA
                 #-----------------------------------------------
                 tree,heuristic_piece = make_tree(piece_move)
+                print(tree)
+                
                 v = minimax(0,0,True,tree,MIN,MAX)
+                print(v)
+                sys.exit(0)
                 moviment = heuristic_piece[v]
                 index_m = 0
                 before =  next(iter(piece_move))

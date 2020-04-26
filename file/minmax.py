@@ -12,7 +12,7 @@ def minimax(depth, nodeIndex, maximizingPlayer,
    
     # Terminating condition. i.e  
     # leaf node is reached  
-    if depth == 3:  
+    if depth == 1:  
         return values[nodeIndex]  
   
     if maximizingPlayer:  

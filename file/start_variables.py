@@ -13,7 +13,7 @@ def start():
             int,
             ["1","2"])
     type_of_player = {}
-    number_of_piece = {"human": 1, "machine": 20}
+    number_of_piece = {"human": 20, "machine": 20}
     if start == 1:
         turn = "human"
         type_of_player["human"] = "white"

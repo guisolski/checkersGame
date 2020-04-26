@@ -52,6 +52,7 @@ class Checker():
                     self.white_piece.append(piece)
                 else:
                     board.set_piece(Piece("blank",pos))
+      
         return board
     #---------------------------------------------------------------------------
     #Change places of pieces

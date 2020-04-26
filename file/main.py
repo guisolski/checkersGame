@@ -169,7 +169,10 @@ def eat_again_ia (piece,game):
         game.move(piece,pieces_eat[eat])
         easy_print(game)
         return eat_again(piece,game)
-
+def end_game(_number_of_piece):
+    if _number_of_piece["human"] == 0 or _number_of_piece["machine"] == 0:
+        return False
+    return True
 #-------------------------------------------------------------------------------
 #Verify if this instace is main thered 
 #-------------------------------------------------------------------------------
@@ -269,6 +272,12 @@ if __name__ == "__main__":
         #Print board
         #-----------------------------------------------------------------------
         easy_print(game)
+        loop  = end_game(number_of_piece)
         #-----------------------------------------------------------------------
         #sys.exit(1)
 #-------------------------------------------------------------------------------
+
+if number_of_piece["human"] != 0:
+    print("Human Win")
+else:
+    print("Machine Win")

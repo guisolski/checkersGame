@@ -158,7 +158,7 @@ def eat_again (piece,game):
         game.move(piece,pieces_eat[eat])
         easy_print(game)
         return eat_again(piece,game)
-
+#-------------------------------------------------------------------------------
 def eat_again_ia (piece,game):
     pieces_eat  = game.verify_diagonal_eating(piece)
     if len(pieces_eat) > 0:
@@ -170,10 +170,31 @@ def eat_again_ia (piece,game):
         easy_print(game)
         return eat_again(piece,game)
     return None
+#-------------------------------------------------------------------------------
 def end_game(_number_of_piece):
     if _number_of_piece["human"] == 0 or _number_of_piece["machine"] == 0:
         return False
     return True
+#-------------------------------------------------------------------------------
+def ia_play(game,type_of_player, MIN, MAX):
+    piece_move = get_piece_move(game,type_of_player)
+    #-----------------------------------------------
+    #logic of IA
+    #-----------------------------------------------
+    #get tree and piece move referent
+    tree,heuristic_piece = make_tree(game,piece_move,type_of_player["machine"],piece_move)
+    #get the value of best move
+    v = minimax(0,0,True,tree,MIN,MAX)
+    #get the best move
+    moviment = heuristic_piece[v]
+    #index the move and origin piece
+    if moviment != None and piece_move != None:
+        before,index_m = origin_piece(moviment,piece_move)
+        #play
+        game.move(before, piece_move[before][index_m])
+        return True
+    return ia_play(game,type_of_player, MIN, MAX)
+
 #-------------------------------------------------------------------------------
 #Verify if this instace is main thered 
 #-------------------------------------------------------------------------------
@@ -253,20 +274,8 @@ if __name__ == "__main__":
                 game.move(keys[eat],values[eat])
                 eat_again_ia(keys[eat],game)
             else:
-                piece_move = get_piece_move(game,type_of_player)
-                #-----------------------------------------------
-                #logic of IA
-                #-----------------------------------------------
-                #get tree and piece move referent
-                tree,heuristic_piece = make_tree(game,piece_move,type_of_player["machine"],piece_move)
-                #get the value of best move
-                v = minimax(0,0,True,tree,MIN,MAX)
-                #get the best move
-                moviment = heuristic_piece[v]
-                #index the move and origin piece
-                before,index_m = origin_piece(moviment,piece_move)
-                #play
-                game.move(before, piece_move[before][index_m])
+                ia_play(game,type_of_player, MIN, MAX)
+                
             #chancing turn
             turn = "human"
         #-----------------------------------------------------------------------

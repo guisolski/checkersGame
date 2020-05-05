@@ -30,9 +30,10 @@ Lady:
     else:
         [distance ,in straight line, to end the board]
 Protecd:
-     [dist another alied]
-
-H = L * p 
+     [aliad close]
+Enemy
+     [enemy close]
+H = L + P - E
 
 
 

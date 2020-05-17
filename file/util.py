@@ -31,6 +31,7 @@ def dic_values(dic):
     return flatten(flat_list)
 
 
+
 def origin_piece(moviment,piece_move):
     #index the move
     index_m = 0
@@ -42,3 +43,10 @@ def origin_piece(moviment,piece_move):
             before = i
             return before, index_m
     return None
+
+def copy_dic(_dic):
+    copy = {}
+    key = dic_keys(_dic)
+    for i in key:
+        copy[i] = _dic[i]
+    return copy

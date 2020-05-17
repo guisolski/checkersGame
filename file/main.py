@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------
 #Import all function and class use in main
 #-----------------------------------------------------------------------
-from util import dic_keys, dic_values,easy_print,origin_piece
+from util import dic_keys, dic_values,easy_print,origin_piece,copy_dic
 import start_variables
 from walk import walk
 from position import Position 
@@ -176,24 +176,37 @@ def end_game(_number_of_piece):
         return False
     return True
 #-------------------------------------------------------------------------------
-def ia_play(game,type_of_player, MIN, MAX):
+def ia_play(game,type_of_player, MIN, MAX,depth):
     piece_move = get_piece_move(game,type_of_player)
+   
+    piece_move_bank = copy_dic(piece_move)
+   
+    if depth > 1:
+        for  i in range(depth-1):
+            _list = []
+            keys = dic_keys(piece_move)
+            for i in keys:                
+                for a in piece_move[i]:
+                    moviments  = game.verify_diagonal_idiot(a,type_of_player["machine"])
+                    if len(moviments) > 0:
+                        piece_move[i] = moviments
     #-----------------------------------------------
     #logic of IA
     #-----------------------------------------------
     #get tree and piece move referent
     tree,heuristic_piece = make_tree(game,piece_move,type_of_player["machine"],piece_move)
     #get the value of best move
-    v = minimax(0,0,True,tree,MIN,MAX)
+    v = minimax(0,0,True,tree,MIN,MAX,depth)
     #get the best move
     moviment = heuristic_piece[v]
+   
     #index the move and origin piece
     if moviment != None and piece_move != None:
         before,index_m = origin_piece(moviment,piece_move)
         #play
-        game.move(before, piece_move[before][index_m])
+        game.move(before, piece_move_bank[before][index_m])
         return True
-    return ia_play(game,type_of_player, MIN, MAX)
+    return ia_play(game,type_of_player, MIN, MAX,depth)
 
 #-------------------------------------------------------------------------------
 #Verify if this instace is main thered 
@@ -202,7 +215,9 @@ if __name__ == "__main__":
     #---------------------------------------------------------------------------
     #Incializa varibles
     #---------------------------------------------------------------------------
+    depth = int(input('Enter lengh of depth: '))
     type_of_player, turn, loop, game,number_of_piece = start_variables.start()
+
     MAX, MIN = sys.maxsize, sys.maxsize*-1 
     #---------------------------------------------------------------------------
     #Loop of the game
@@ -274,7 +289,7 @@ if __name__ == "__main__":
                 game.move(keys[eat],values[eat])
                 eat_again_ia(keys[eat],game)
             else:
-                ia_play(game,type_of_player, MIN, MAX)
+                ia_play(game,type_of_player, MIN, MAX,depth)
                 
             #chancing turn
             turn = "human"

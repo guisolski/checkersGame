@@ -169,14 +169,24 @@ class Checker():
             _return.append(self.recursion_lady([],_move[i],_diagonal[i]))
         return _return 
     #---------------------------------------------------------------------------
+    #---------------------------------------------------------------------------
+    def verify_diagonal_idiot(self,_piece,_type):
+      _piece.type = _type
+      moviments = self.verify_diagonal_move(_piece)
+      _piece.type = "blank"
+      return moviments
+      
+
+    #---------------------------------------------------------------------------
     #checks if the stride piece moves on any diagonal
     #---------------------------------------------------------------------------
     def verify_diagonal_move(self,_piece):
+        _type = _piece.type     
         pos = _piece.pos
         blank = "blank"
         move = []
         _diagonal = []
-        if _piece.type == "white" or _piece.lady == True:
+        if _type == "white" or _piece.lady == True:
             #------------------------------------------------------------
             #one horizantal direction (-y)
             #------------------------------------------------------------
@@ -193,7 +203,7 @@ class Checker():
                     _diagonal.append([-1,-1])
             except: pass
             #------------------------------------------------------------
-        if _piece.type == "black" or _piece.lady == True:
+        if _type == "black" or _piece.lady == True:
             #------------------------------------------------------------
             #one horizantal direction (+y)
             #------------------------------------------------------------
